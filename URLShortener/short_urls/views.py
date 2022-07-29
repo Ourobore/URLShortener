@@ -1,5 +1,5 @@
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from .models import ShortUrl
 
@@ -15,3 +15,7 @@ def url_form(request):
     )
     new_short_url.save()
     return HttpResponseRedirect(reverse('short_urls:index'))
+
+def redirect_short_url(request, slug):
+    short_url = get_object_or_404(ShortUrl, slug=slug)
+    return HttpResponseRedirect(short_url.original_url)
