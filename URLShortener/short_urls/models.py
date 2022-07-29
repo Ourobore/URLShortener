@@ -1,6 +1,7 @@
 import string
 import random
 from django.db import models
+from django.forms import ModelForm
 from django.core.validators import MinLengthValidator, MaxLengthValidator
 
 SHORT_URL_LENGTH = 6
@@ -17,3 +18,9 @@ class ShortUrl(models.Model):
 
     def generate_random_short_slug():
         return ''.join(random.choices(SHORT_URL_CHARSET, k=SHORT_URL_LENGTH))
+
+        
+class ShortUrlForm(ModelForm):
+    class Meta:
+        model = ShortUrl
+        fields = ['original_url']
