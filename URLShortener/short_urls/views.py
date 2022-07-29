@@ -11,11 +11,15 @@ def index(request):
     return render(request, 'short_urls/index.html', {"slug": slug, "host": request.get_host()})
 
 def url_form(request):
-    new_short_url = ShortUrl(
-        original_url=request.POST['input_url'],
-        slug=ShortUrl.generate_random_short_slug(),
-    )
-    new_short_url.save()
+    input_url = request.POST['input_url']
+    try:
+        new_short_url = ShortUrl.objects.get(original_url=input_url)
+    except:
+        new_short_url = ShortUrl(
+            original_url=input_url,
+            slug=ShortUrl.generate_random_short_slug(),
+        )
+        new_short_url.save()
     request.session['slug'] = new_short_url.slug
     return HttpResponseRedirect(reverse('short_urls:index'))
 
