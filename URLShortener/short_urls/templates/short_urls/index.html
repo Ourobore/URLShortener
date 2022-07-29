@@ -1,7 +1,8 @@
 <h1 align="center">URL Shortener</h1>
 <br>
 <div align="center">
-    <form method="POST">
+    <form action="{% url 'short_urls:url_form' %}" method="POST">
+        {% csrf_token %}
         <fieldset>
             <legend align="center">
                 <h2> Enter the URL to short</h2>
