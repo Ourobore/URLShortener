@@ -8,7 +8,10 @@
                 <h2> Enter the URL to short</h2>
             </legend>
             <input type="text" name="input_url"><br>
-            <input type="submit" value="Short me!">
+            <input type="submit" value="Short me!"><br>
+            {% if slug and host%}
+            <p>Your shortened URL is: <a href="{{ slug }}">{{ host }}/{{ slug }}</a></p>
+            {% endif %}
         </fieldset>
     </form>
 </div>
