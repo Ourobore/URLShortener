@@ -1,0 +1,31 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=${PSQL_NAME}
+      - POSTGRES_PORT=${PSQL_PORT}
+      - POSTGRES_USER=${PSQL_USER}
+      - POSTGRES_PASSWORD=${PSQL_PASSWORD}
+    ports:
+      - ":5432"
+
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./URLShortener:/code
+    ports:
+      - 8000:8000
+    environment:
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
+      - PSQL_HOST=${PSQL_HOST}
+      - PSQL_NAME=${PSQL_NAME}
+      - PSQL_PORT=${PSQL_PORT}
+      - PSQL_USER=${PSQL_USER}
+      - PSQL_PASSWORD=${PSQL_PASSWORD}
+    depends_on:
+      - db
