@@ -17,10 +17,6 @@ class ShortUrl(models.Model):
     )
     original_url = models.URLField(blank=False, validators=[MaxLengthValidator(2000)])
 
-    # def __init__(self, url):
-    #     self.original_url = url
-    #     self.slug = self.generate_random_short_slug()
-
     def __str__(self):
         return self.slug
 

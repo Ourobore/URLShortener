@@ -5,7 +5,11 @@ from .models import ShortUrl, ShortUrlForm
 
 # Create your views here.
 def index(request):
-    # Get previous slug
+    """
+    Return a form (Django template) to create new short URL,
+    and also resulting URL or error
+    """
+    # Get previous slug / error
     if slug := request.session.get("slug", None):
         del request.session["slug"]
     if not_valid := request.session.get("not_valid", None):
@@ -24,13 +28,18 @@ def index(request):
 
 
 def redirect_short_url(request, slug):
+    """
+    Redirects to original URL from short URL
+    """
     short_url = get_object_or_404(ShortUrl, slug=slug)
     return HttpResponseRedirect(short_url.original_url)
 
 
 def url_form(request):
+    """
+    Process the form and return the short URL, or an error if not valid
+    """
     if request.method == "POST":
-        # Process the form
         formset = ShortUrlForm(request.POST)
         if formset.is_valid():
             short_url = formset.save(commit=False)
@@ -58,6 +67,9 @@ def url_form(request):
 
 #  Logic
 def verify_duplicate_original_url(url):
+    """
+    Checks for duplicate original URL in database
+    """
     original_url_list = ShortUrl.objects.values_list("original_url", flat=True)
     if url in list(original_url_list):
         return True
@@ -66,6 +78,9 @@ def verify_duplicate_original_url(url):
 
 
 def verify_duplicate_slug(slug):
+    """
+    Checks for duplicate slug in database
+    """
     slug_list = ShortUrl.objects.values_list("slug", flat=True)
     if slug in list(slug_list):
         return True
