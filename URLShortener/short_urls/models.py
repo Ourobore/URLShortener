@@ -10,17 +10,25 @@ SHORT_URL_CHARSET = string.ascii_letters
 # Create your models here.
 class ShortUrl(models.Model):
 
-    slug = models.CharField(max_length=SHORT_URL_LENGTH, blank=False, validators=[MinLengthValidator(SHORT_URL_LENGTH)])
+    slug = models.CharField(
+        max_length=SHORT_URL_LENGTH,
+        blank=False,
+        validators=[MinLengthValidator(SHORT_URL_LENGTH)],
+    )
     original_url = models.URLField(blank=False, validators=[MaxLengthValidator(2000)])
+
+    # def __init__(self, url):
+    #     self.original_url = url
+    #     self.slug = self.generate_random_short_slug()
 
     def __str__(self):
         return self.slug
 
     def generate_random_short_slug():
-        return ''.join(random.choices(SHORT_URL_CHARSET, k=SHORT_URL_LENGTH))
+        return "".join(random.choices(SHORT_URL_CHARSET, k=SHORT_URL_LENGTH))
 
-        
+
 class ShortUrlForm(ModelForm):
     class Meta:
         model = ShortUrl
-        fields = ['original_url']
+        fields = ["original_url"]
