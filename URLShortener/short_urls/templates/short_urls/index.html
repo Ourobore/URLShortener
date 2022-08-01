@@ -1,7 +1,7 @@
 <h1 align="center">URL Shortener</h1>
 <br>
 <div align="center">
-    <form action="" method="POST">
+    <form action="url_form" method="POST">
         {% csrf_token %}
         <fieldset>
             <legend align="center">
@@ -9,9 +9,11 @@
             </legend>
             {{ formset }}<br>
             <input type="submit" value="Short me!"><br>
+
             {% if not_valid %}
             <p>The URL <a href="{{ not_valid }}">{{ not_valid }}</a> is not valid</p>
             {% endif %}
+
             {% if slug and host%}
             <p>Your shortened URL is: <a href="{{ slug }}">{{ host }}/{{ slug }}</a></p>
             {% endif %}
