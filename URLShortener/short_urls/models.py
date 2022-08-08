@@ -28,9 +28,13 @@ class ShortUrl(models.Model):
     )
 
     def __str__(self):
-        return f"[{self.slug}] : {self.original_url}"
+        return f"[ {self.slug} ] : {self.original_url}"
 
     def generate_hashed_short_slug():
+        """
+        Generate slug from hashed primary key,
+        so that it can be decoded into the priary key
+        """
         new_id = 0
         try:
             new_id = ShortUrl.objects.latest("id").id + 1

@@ -1,4 +1,4 @@
-<h1 align="center">URL Shortener</h1>
+<h1 align="center"><a href="/">URL Shortener</a></h1>
 <br>
 <div align="center">
     <form action="url_form" method="POST">
@@ -10,13 +10,14 @@
             {{ formset.original_url }}<br>
             <input type="submit" value="Short me!"><br>
 
-            {% if not_valid %}
-            <p>The URL <a href="{{ not_valid }}">{{ not_valid }}</a> is not valid</p>
+            {% if request.GET.not_valid %}
+            <p>The URL <a href="{{ request.GET.not_valid }}">{{ request.GET.not_valid }}</a> is not valid</p>
             {% endif %}
 
-            {% if slug and host%}
-            <p>Your shortened URL is: <a href="{{ slug }}">{{ host }}/{{ slug }}</a></p>
+            {% if request.GET.slug %}
+            <p>Your shortened URL is: <a href="{{ request.GET.slug }}">{{ host }}/{{ request.GET.slug }}</a></p>
             {% endif %}
+
         </fieldset>
     </form>
 </div>

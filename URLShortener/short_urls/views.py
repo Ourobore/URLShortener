@@ -2,26 +2,20 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from .models import ShortUrl, ShortUrlForm
+import urllib.parse
 
 # Create your views here.
 def index(request):
     """
     Return a form (Django template) to create new short URL,
-    and also resulting URL or error
+    as well as resulting URL or error
     """
-    # Get previous slug / error
-    if slug := request.session.get("slug", None):
-        del request.session["slug"]
-    if not_valid := request.session.get("not_valid", None):
-        del request.session["not_valid"]
 
     return render(
         request,
         "short_urls/index.html",
         {
             "formset": ShortUrlForm(),
-            "slug": slug,
-            "not_valid": not_valid,
             "host": request.get_host(),
         },
     )
@@ -39,6 +33,8 @@ def url_form(request):
     """
     Process the form and return the short URL, or an error if not valid
     """
+    query_params = {}
+
     if request.method == "POST":
         formset = ShortUrlForm(request.POST)
         if formset.is_valid():
@@ -46,16 +42,17 @@ def url_form(request):
             short_url = formset.save(commit=False)
             short_url.slug = ShortUrl.generate_hashed_short_slug()
             short_url.save()
-            request.session["slug"] = short_url.slug
+            query_params["slug"] = short_url.slug
 
         # If the form is not valid OR the URL is already known
         else:
             try:
-                existing_short_url = ShortUrl.objects.get(
+                query_params["slug"] = ShortUrl.objects.get(
                     original_url=request.POST["original_url"]
-                )
-                request.session["slug"] = existing_short_url.slug
+                ).slug
             except ShortUrl.DoesNotExist:
-                request.session["not_valid"] = request.POST["original_url"]
+                query_params["not_valid"] = request.POST["original_url"]
 
-    return HttpResponseRedirect(reverse("short_urls:index"))
+    return HttpResponseRedirect(
+        f"{reverse('short_urls:index')}?{urllib.parse.urlencode(query_params)}"
+    )
