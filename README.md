@@ -77,4 +77,4 @@ PSQL_HOST=my_psql_host
 PSQL_PORT=my_psql_port
 ```
 
-`PSQL_HOST` must be set to either `localhost` if running the app locally, or to the `db` service if using Docjer Compose.
+`PSQL_HOST` must be set to either `localhost` if running the app locally, or to the `db` service if using Docker Compose.
