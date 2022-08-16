@@ -70,11 +70,11 @@ The following envrionment variables are needed in a `.env` file to setup the Dja
 
 ```
 DJANGO_SECRET_KEY=my_super_secret_and_long_secret_key
-PSQL_NAME=my_database_name
-PSQL_USER=my_psql_user
-PSQL_PASSWORD=my_psql_password
-PSQL_HOST=my_psql_host
-PSQL_PORT=my_psql_port
+POSTGRES_NAME=my_database_name
+POSTGRES_USER=my_psql_user
+POSTGRES_PASSWORD=my_psql_password
+POSTGRES_HOST=my_psql_host
+POSTGRES_PORT=my_psql_port
 ```
 
-`PSQL_HOST` must be set to either `localhost` if running the app locally, or to the `db` service if using Docker Compose.
+`POSTGRES_HOST` must be set to either `localhost` if running the app locally, or to the `db` service if using Docker Compose.

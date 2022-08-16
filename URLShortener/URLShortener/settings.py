@@ -78,11 +78,11 @@ WSGI_APPLICATION = "URLShortener.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ["PSQL_NAME"],
-        "HOST": os.environ["PSQL_HOST"],
-        "PORT": os.environ["PSQL_PORT"],
-        "USER": os.environ["PSQL_USER"],
-        "PASSWORD": os.environ["PSQL_PASSWORD"],
+        "NAME": os.environ["POSTGRES_NAME"],
+        "HOST": os.environ["POSTGRES_HOST"],
+        "PORT": os.environ["POSTGRES_PORT"],
+        "USER": os.environ["POSTGRES_USER"],
+        "PASSWORD": os.environ["POSTGRES_PASSWORD"],
     }
 }
 
